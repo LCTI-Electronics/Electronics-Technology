@@ -1,0 +1,14 @@
+.container {
+	display: grid;
+	align-items: center;
+	grid-template-columns: 1fr 1fr 1fr;
+	column-gap: 5px;
+}
+
+.footer {
+	padding-bottom: 10px;
+	position: fixed;
+	text-align: center;
+	bottom: 0px;
+	width: 100%;
+}
