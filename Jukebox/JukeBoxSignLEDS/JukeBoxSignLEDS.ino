@@ -1,9 +1,6 @@
-// Coded by Gabe Magwood
 #include <Adafruit_NeoPixel.h>
 #define LED_PIN     6
-#define LED_COUNT  144
-
-Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_RGBW + NEO_KHZ800);
+#define LED_COUNT  432
 
 /*
  1 = Pulsing random color
@@ -13,19 +10,20 @@ Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_RGBW + NEO_KHZ800);
 int mode = 1; 
 const int speed = 10; //ms delay
 const int brightness = 200;
-unsigned long timer;
 int cycles = 0;
 
+Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_RGBW + NEO_KHZ800);
+
+
 void setup() {
-  Serial.begin(9600);
   strip.begin();           
   strip.show();           
   strip.setBrightness(brightness);
 }
 
 void loop() {
-  timer = millis();
 
+  
   switch (mode) {
     case 1: {
       int red = random(0, 128);
@@ -82,10 +80,17 @@ void loop() {
 
   if (cycles % 5 == 0) {
     mode = random(1, 4);
-    Serial.println(mode);
   }
 }
 
 void setPixel(int Pixel, byte red, byte green, byte blue) {
   strip.setPixelColor(Pixel, strip.Color(red, green, blue));
+}
+
+void colorWipe(uint32_t color, int wait) {
+  for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
+    strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
+    strip.show();                          //  Update strip to match
+    delay(wait);                           //  Pause for a moment
+  }
 }
